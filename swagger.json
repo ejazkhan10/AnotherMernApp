@@ -76,6 +76,29 @@
         }
       }
     },
+
+    "/api/users/{id}": {
+      "get": {
+        "summary": "Return user info from id",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Return user info"
+          },
+
+          "404": {
+            "description": "User not found"
+          }
+        }
+      }
+    },
+
     "/api/profile/all": {
       "get": {
         "summary": "Show all user profiles",

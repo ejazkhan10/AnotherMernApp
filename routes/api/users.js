@@ -60,7 +60,7 @@ router.post("/register", (req, res) => {
   });
 });
 
-// @route   GET api/users/login
+// @route   POST api/users/login
 // @desc    Login User / Returning JWT Token
 // @access  Public
 router.post("/login", (req, res) => {
@@ -95,7 +95,7 @@ router.post("/login", (req, res) => {
           (err, token) => {
             res.json({
               success: true,
-              toekn: "Bearer " + token
+              token: "Bearer " + token
             });
           }
         );
@@ -105,6 +105,36 @@ router.post("/login", (req, res) => {
       }
     });
   });
+});
+
+// @route get api/users/names
+// @desc Return registered user names
+// @access Public
+
+router.get("/registered", (req, res) => {
+  User.find()
+    .then(users => {
+      return res.status(200).json(users);
+    })
+    .catch(err => res.status(404).json({ NoUsers: "No users exist" }));
+});
+
+// @route get api/users/:id
+// @desc Return user name and email for an id
+// @access public
+
+router.get("/:id", (req, res) => {
+  User.findOne({ _id: req.params.id })
+    .then(user => {
+      const usertoreturn = {
+        name: user.name,
+        email: user.email
+      };
+      return res.status(200).json(usertoreturn);
+    })
+    .catch(err => {
+      return res.status(404).json({ Error: "User Not found" });
+    });
 });
 
 // @route get api/users/current
